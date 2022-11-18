@@ -17,5 +17,5 @@ runs:
     - name: "Build Docker image"
       shell: bash
       run: |
-        docker build -t ${{ inputs.docker_tag }} - < ${{ inputs.docker_file_path }}
+        docker build -t ${{ inputs.docker_tag }} ${{ inputs.docker_file_path }}
 
