@@ -18,11 +18,13 @@
  */
 
 #include <mococrw/symmetric_crypto.h>
+#include <cassert>
 #include <iostream>
 
 using namespace mococrw;
 
 static const std::vector<uint8_t> plaintext = utility::fromHex("deadbeef");
+static const std::vector<uint8_t> expectedCiphertext = utility::fromHex("c0bdb9ef");
 static const SymmetricCipherMode aeOperationMode = SymmetricCipherMode::GCM;
 static const SymmetricCipherMode plainOperationMode = SymmetricCipherMode::CBC;
 static const SymmetricCipherPadding padding = SymmetricCipherPadding::PKCS;
@@ -195,6 +197,7 @@ int main(void)
 {
     /* Authenticated encryption and decryption */
     auto aeResult = aesAuthenticatedEncryption();
+    assert(expectedCiphertext == aeResult.ciphertext);
     auto decryptionResult = aesAuthenticatedDecryption(aeResult);
     if (plaintext != decryptionResult) {
         std::cerr << "Failure decrypting AEAD data." << std::endl;
